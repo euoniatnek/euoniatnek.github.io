@@ -45,7 +45,7 @@
             margin: 0;
             cursor: default;
         }
-        .doc-title:hover { text-decoration: none; }
+        .doc-link:hover { text-decoration: underline; }
         .doc-date {
             font-size: 0.9rem;
             color: var(--accent-gray);
@@ -121,15 +121,14 @@
                 html += `
                     <div class="doc-card">
                         <div class="doc-header">
-                            <h2 class="doc-title">${doc.title}</h2>
+                            <h2 class="doc-title">
+                                <a href="${doc.url}" target="_blank" class="doc-link">
+                                    ${doc.title}
+                                </a>
+                            </h2>
                             <span class="doc-date">${displayDate}</span>
                         </div>
                         <p class="doc-description">${doc.description}</p>
-                        <div class="doc-footer">
-                            <a href="${doc.url}" target="_blank" class="pdf-link">
-                                <i class="fa-solid fa-file-pdf"></i> PDFを開く
-                            </a>
-                        </div>
                     </div>
                 `;
             });
