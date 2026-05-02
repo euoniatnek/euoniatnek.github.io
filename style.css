@@ -1,88 +1,75 @@
-/* 基本設定 */
+/* 全ページ共通のモダンなスタイル */
 :root {
-    --bg-color: #f8f9fa;
+    --bg-color: #f0f2f5;
     --sidebar-color: #ffffff;
     --primary-color: #007bff;
-    --text-color: #212529;
-    --accent-gray: #6c757d;
-    --border-color: #dee2e6;
+    --text-color: #1c1e21;
+    --accent-gray: #65676b;
+    --border-color: #dddfe2;
 }
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    line-height: 1.6;
 }
 
-.container {
-    display: flex;
-}
+.container { display: flex; min-height: 100vh; }
 
 /* サイドバー */
 .sidebar {
-    width: 260px;
-    background-color: var(--sidebar-color);
+    width: 250px;
+    background: var(--sidebar-color);
     border-right: 1px solid var(--border-color);
     position: fixed;
     height: 100vh;
-    padding: 30px 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    padding: 2rem 1.5rem;
+    z-index: 100;
 }
 
-.profile h2 { margin: 10px 0 5px; font-size: 1.2rem; }
-.profile p { color: var(--accent-gray); font-size: 0.9rem; margin-bottom: 30px; }
+.profile h2 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+.profile p { color: var(--accent-gray); font-size: 0.9rem; margin-bottom: 2rem; }
 
-.nav-menu ul { list-style: none; padding: 0; margin: 0; }
-.nav-menu li { margin-bottom: 8px; }
+.nav-menu ul { list-style: none; padding: 0; }
+.nav-menu li { margin-bottom: 0.5rem; }
 
 .nav-menu a {
     display: flex;
     align-items: center;
-    padding: 12px 15px;
+    padding: 0.75rem 1rem;
     text-decoration: none;
     color: var(--text-color);
-    border-radius: 10px;
-    transition: 0.2s;
+    border-radius: 8px;
+    transition: background 0.2s;
 }
 
-.nav-menu a:hover { background-color: #f0f2f5; }
-.nav-menu a.active {
-    background-color: var(--primary-color);
-    color: white;
-}
+.nav-menu a:hover { background: #f2f3f5; }
+.nav-menu a.active { background: #e7f3ff; color: var(--primary-color); font-weight: bold; }
+.nav-menu i { margin-right: 12px; width: 18px; text-align: center; }
 
-.nav-menu i { margin-right: 12px; width: 20px; text-align: center; }
-
-/* メインコンテンツ */
+/* メイン */
 .main-content {
-    margin-left: 260px;
-    padding: 40px 60px;
+    margin-left: 250px;
+    padding: 3rem;
     width: 100%;
-    max-width: 900px;
+    max-width: 800px;
 }
 
-h1 { font-size: 2rem; margin-bottom: 30px; }
-
-/* カードスタイル */
 .card {
     background: white;
-    padding: 25px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 20px;
-    transition: transform 0.2s;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
 }
 
-.card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-.card .date { color: var(--accent-gray); font-size: 0.85rem; }
-.card h2 { margin: 10px 0; font-size: 1.4rem; }
-
-/* スマホ対応 */
+/* スマホ表示 */
 @media (max-width: 768px) {
     .container { flex-direction: column; }
-    .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border-color); }
-    .main-content { margin-left: 0; padding: 20px; }
+    .sidebar { width: 100%; height: auto; position: relative; border-right: none; }
+    .main-content { margin-left: 0; padding: 1.5rem; }
 }
