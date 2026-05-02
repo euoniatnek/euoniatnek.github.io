@@ -45,7 +45,18 @@
             margin: 0;
             cursor: default;
         }
-        .doc-link:hover { text-decoration: underline; }
+        .doc-link {
+             color: var(--primary-color) !important; /* 常にテーマのメインカラー（青系）を維持 */
+             text-decoration: none;
+             transition: opacity 0.2s;
+        }
+        .doc-link:visited {
+             color: var(--primary-color) !important; /* クリック後も色を変えない */
+        }
+        .doc-link:hover { 
+            text-decoration: underline;
+            opacity: 0.8;
+        }
         .doc-date {
             font-size: 0.9rem;
             color: var(--accent-gray);
@@ -61,15 +72,6 @@
         .doc-footer {
             margin-top: 5px;
         }
-        .pdf-link {
-            color: #d32f2f; /* PDFっぽい赤色 */
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .pdf-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
