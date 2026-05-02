@@ -36,10 +36,7 @@
     </style>
 </head>
 <body>
-    <button class="menu-toggle" id="menu-toggle">
-    <i class="fa-solid fa-ellipsis-vertical"></i> </button>
-
-<div class="overlay" id="overlay"></div>
+    
     <div class="container">
         <aside class="sidebar">
             <div class="profile"><h2>Your Name</h2><p>@username</p></div>
@@ -158,21 +155,7 @@
         }
 
         init();
-        　　　　　　const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.querySelector('.sidebar');
-const overlay = document.getElementById('overlay');
-
-// ボタンをクリックしたら active クラスを付け外しする
-menuToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-});
-
-// オーバーレイ（暗い部分）をクリックしたら閉じる
-overlay.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-});
+        　　　　　　
     </script>
 </body>
 </html>
