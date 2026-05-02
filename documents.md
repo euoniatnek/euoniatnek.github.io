@@ -1,14 +1,10 @@
 ---
 layout: default
+title: 公開文書
 ---
 
-<div class="container">
-<div class="card">
+# 公開文書一覧
 
-# 公開文書
-
-- intersection.pdf
-- gysin.pdf
-
-</div>
-</div>
+{% for doc in site.documents %}
+- [{{ doc.title }}]({{ doc.url }})
+{% endfor %}
