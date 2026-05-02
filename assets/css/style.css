@@ -1,58 +1,98 @@
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #222;
+  --accent: #4f7cff;
+  --border: #e6e8ef;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1115;
+  --card: #1a1d24;
+  --text: #e8eaf0;
+  --border: #2a2f3a;
+}
+
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f5f6f8;
-  color: #222;
-  transition: 0.3s;
+  background: var(--bg);
+  color: var(--text);
 }
 
-body.dark {
-  background: #1e1f22;
-  color: #eee;
+/* ===== Toolbar ===== */
+
+.toolbar {
+  height: 60px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.container { display: flex; min-height: 100vh; }
+#themeToggle {
+  border: 1px solid var(--border);
+  background: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== Layout ===== */
+
+.layout {
+  display: flex;
+}
+
+/* ===== Sidebar ===== */
 
 .sidebar {
-  width: 240px;
-  background: white;
+  width: 220px;
+  min-height: calc(100vh - 60px);
+  border-right: 1px solid var(--border);
   padding: 30px 20px;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
-  position: fixed;
-  height: 100%;
+  background: var(--card);
 }
 
-body.dark .sidebar { background: #2a2b2f; }
-
-.logo { font-size: 22px; margin-bottom: 30px; }
-
-.sidebar nav a {
+.sidebar a {
   display: block;
   text-decoration: none;
-  color: inherit;
-  padding: 10px 0;
-  font-weight: 500;
+  color: var(--text);
+  padding: 10px 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
-.content {
-  margin-left: 260px;
-  padding: 40px;
-  width: 100%;
+.sidebar a:hover {
+  background: var(--border);
 }
+
+/* ===== Main ===== */
+
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+/* ===== Card ===== */
 
 .card {
-  background: white;
+  background: var(--card);
   padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  max-width: 900px;
 }
 
-body.dark .card { background: #2a2b2f; }
+/* ===== Typography ===== */
 
-.date { color: gray; font-size: 14px; }
-
-button {
-  margin-top: 30px;
-  padding: 8px;
-  width: 100%;
+h1, h2, h3 {
+  margin-top: 0;
 }
