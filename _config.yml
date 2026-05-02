@@ -1,4 +1,4 @@
+theme: minima
 markdown: kramdown
 kramdown:
-  math_engine: mathjax
-theme: minima
+  input: GFM
