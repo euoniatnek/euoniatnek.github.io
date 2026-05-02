@@ -67,4 +67,57 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* メニュー開閉ボタンのスタイル */
+.menu-toggle {
+    display: block; /* 常に表示 */
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
 
+/* サイドバーの初期状態（隠す） */
+.sidebar {
+    position: fixed;
+    left: -280px; /* サイドバーの横幅分マイナスにする */
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    transition: 0.3s ease;
+    z-index: 1000;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+/* メニューが開いている時の状態 */
+.sidebar.active {
+    left: 0;
+}
+
+/* メニューが開いている間、メインコンテンツを少し暗くするオーバーレイ（任意） */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 999;
+}
+.overlay.active {
+    display: block;
+}
+
+/* メインコンテンツの余白調整（サイドバーが浮くので少し左に寄せる） */
+.main-content {
+    margin-left: 0 !important;
+    padding-top: 70px; /* ボタンと重ならないように調整 */
+}
