@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  {% include head.html %}
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+<div class="container">
 
-<nav class="topnav">
-  <a href="/about">自己紹介</a>
-  <a href="/diary">日記</a>
-  <a href="/documents">公開文書</a>
-</nav>
+  <aside class="sidebar">
+    <h1 class="logo">井上堅太</h1>
+    <nav>
+      <a href="/">ホーム</a>
+      <a href="/about.html">自己紹介</a>
+      <a href="/diary.html">日記</a>
+      <a href="/documents.html">公開文書</a>
+    </nav>
+    <button id="toggle">🌙/☀️</button>
+  </aside>
 
-{{ content }}
+  <main class="content">
+    <div class="card">
+      {{ content }}
+    </div>
+  </main>
+
+</div>
+
+<script>
+const btn = document.getElementById('toggle');
+btn.onclick = () => {
+  document.body.classList.toggle('dark');
+};
+</script>
 
 </body>
 </html>
