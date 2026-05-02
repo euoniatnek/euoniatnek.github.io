@@ -12,28 +12,46 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* 階層ナビゲーション用のスタイル */
+        /* レイアウト崩れ防止用の追加スタイル */
+        .main-content {
+            max-width: 900px; /* 横に広がりすぎないように制限 */
+            overflow-x: hidden; /* 横スクロールの発生を防ぐ */
+        }
+
+        /* 階層ナビゲーション */
         .archive-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin-top: 20px; }
         .archive-card {
             background: white; padding: 2rem; border-radius: 12px; text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee;
             cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit;
         }
-        .archive-card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .archive-card h2 { margin: 0; color: var(--primary-color); }
+        .archive-card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .archive-card h2 { margin: 0; font-family: inherit; }
 
-        /* 月別表示（縦並び）のスタイル */
+        /* 月別表示（ストリーム） */
         .monthly-posts-container { display: flex; flex-direction: column; gap: 40px; margin-top: 30px; }
-        .diary-post { border-left: 4px solid var(--primary-color); padding-left: 20px; }
+        .diary-post { border-left: 4px solid var(--primary-color); padding-left: 20px; width: 100%; }
         .diary-post-date { font-size: 1.2rem; font-weight: bold; color: var(--accent-gray); margin-bottom: 10px; }
         
-        .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; cursor: pointer; }
+        /* 記事内のフォントを強制的に統一 */
+        .diary-body { 
+            font-family: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif !important;
+            line-height: 1.8;
+            word-wrap: break-word; /* 長い英単語などが突き抜けるのを防ぐ */
+        }
+
+        .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; font-size: 0.9rem; }
+        .breadcrumb span { cursor: pointer; }
         .breadcrumb span:hover { color: var(--primary-color); text-decoration: underline; }
+
+        /* サイドバーが崩れないように保護 */
+        .sidebar { z-index: 1000; }
     </style>
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
+            <div class="profile"><h2>Your Name</h2><p>@username</p></div>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
@@ -51,7 +69,7 @@
 
     <script>
         /**
-         * 日記リスト
+         * 日記リスト（適宜更新してください）
          */
         const diaryPosts = [
             "2026-05-02", "2026-05-01", "2026-04-15",
@@ -75,7 +93,6 @@
             }
         }
 
-        // 1. 年一覧
         function renderYearList() {
             breadcrumb.style.display = 'none';
             const years = [...new Set(diaryPosts.map(id => id.split('-')[0]))].sort((a,b) => b-a);
@@ -86,7 +103,6 @@
             view.innerHTML = html + '</div>';
         }
 
-        // 2. 月一覧
         function renderMonthList(year) {
             breadcrumb.style.display = 'block';
             breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > ${year}年`;
@@ -99,7 +115,6 @@
             view.innerHTML = html + '</div>';
         }
 
-        // 3. ひと月分の日記を縦並びで表示
         async function renderMonthlyStream(year, month) {
             breadcrumb.style.display = 'block';
             breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
@@ -113,6 +128,7 @@
             for (const id of posts) {
                 try {
                     const res = await fetch(`posts/${id}.md`);
+                    if(!res.ok) continue;
                     const md = await res.text();
                     const htmlContent = marked.parse(md);
                     const [y, m, d] = id.split('-');
@@ -120,16 +136,13 @@
                     allHtml += `
                         <section class="diary-post">
                             <div class="diary-post-date">${y}/${m}/${d}</div>
-                            <div class="card">${htmlContent}</div>
+                            <div class="card diary-body">${htmlContent}</div>
                         </section>
                     `;
-                } catch (e) {
-                    console.error(`${id} の読み込みに失敗しました`);
-                }
+                } catch (e) { console.error(e); }
             }
             
             stream.innerHTML = allHtml;
-            // 全て読み込み終わってからMathJaxを適用
             if (window.MathJax) MathJax.typesetPromise([stream]);
         }
 
