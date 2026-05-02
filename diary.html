@@ -13,7 +13,7 @@
 
     <style>
         /* 階層ナビゲーション用のスタイル */
-        .archive-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); margin-top: 20px; }
+        .archive-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin-top: 20px; }
         .archive-card {
             background: white; padding: 2rem; border-radius: 12px; text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee;
@@ -21,15 +21,12 @@
         }
         .archive-card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .archive-card h2 { margin: 0; color: var(--primary-color); }
-        
-        .list-group { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
-        .list-item { 
-            display: block; padding: 15px 20px; text-decoration: none; color: var(--text-color);
-            border-bottom: 1px solid #eee; transition: 0.2s;
-        }
-        .list-item:last-child { border-bottom: none; }
-        .list-item:hover { background: #f0f7ff; color: var(--primary-color); }
 
+        /* 月別表示（縦並び）のスタイル */
+        .monthly-posts-container { display: flex; flex-direction: column; gap: 40px; margin-top: 30px; }
+        .diary-post { border-left: 4px solid var(--primary-color); padding-left: 20px; }
+        .diary-post-date { font-size: 1.2rem; font-weight: bold; color: var(--accent-gray); margin-bottom: 10px; }
+        
         .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; cursor: pointer; }
         .breadcrumb span:hover { color: var(--primary-color); text-decoration: underline; }
     </style>
@@ -48,15 +45,13 @@
 
         <main class="main-content">
             <nav class="breadcrumb" id="breadcrumb" style="display:none;"></nav>
-
-            <div id="diary-view">
-                </div>
+            <div id="diary-view"></div>
         </main>
     </div>
 
     <script>
         /**
-         * 日記の管理リスト（ここに日付を追加するだけ）
+         * 日記リスト
          */
         const diaryPosts = [
             "2026-05-02", "2026-05-01", "2026-04-15",
@@ -70,12 +65,9 @@
             const params = new URLSearchParams(window.location.search);
             const year = params.get('year');
             const month = params.get('month');
-            const post = params.get('post');
 
-            if (post) {
-                renderPost(post);
-            } else if (year && month) {
-                renderDayList(year, month);
+            if (year && month) {
+                renderMonthlyStream(year, month);
             } else if (year) {
                 renderMonthList(year);
             } else {
@@ -83,18 +75,18 @@
             }
         }
 
-        // 1. 年一覧を表示
+        // 1. 年一覧
         function renderYearList() {
             breadcrumb.style.display = 'none';
             const years = [...new Set(diaryPosts.map(id => id.split('-')[0]))].sort((a,b) => b-a);
-            let html = '<h1>Archives</h1><div class="archive-container">';
+            let html = '<h1>Diary Archives</h1><div class="archive-container">';
             years.forEach(y => {
                 html += `<a href="?year=${y}" class="archive-card"><h2>${y}年</h2></a>`;
             });
             view.innerHTML = html + '</div>';
         }
 
-        // 2. 月一覧を表示
+        // 2. 月一覧
         function renderMonthList(year) {
             breadcrumb.style.display = 'block';
             breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > ${year}年`;
@@ -107,37 +99,38 @@
             view.innerHTML = html + '</div>';
         }
 
-        // 3. 日（記事）一覧を表示
-        function renderDayList(year, month) {
+        // 3. ひと月分の日記を縦並びで表示
+        async function renderMonthlyStream(year, month) {
             breadcrumb.style.display = 'block';
             breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
             
             const posts = diaryPosts.filter(id => id.startsWith(`${year}-${month}`)).sort((a,b) => b-a);
-            let html = `<h1>${parseInt(month)}月の日記</h1><div class="list-group">`;
-            posts.forEach(id => {
-                const day = id.split('-')[2];
-                html += `<a href="?post=${id}" class="list-item">${parseInt(day)}日の日記</a>`;
-            });
-            view.innerHTML = html + '</div>';
-        }
-
-        // 4. 記事本文を表示
-        async function renderPost(id) {
-            const [y, m, d] = id.split('-');
-            breadcrumb.style.display = 'block';
-            breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > <span onclick="location.href='?year=${y}'">${y}年</span> > <span onclick="location.href='?year=${y}&month=${m}'">${parseInt(m)}月</span>`;
-
-            view.innerHTML = `<h1 id="post-title">${y}/${m}/${d}</h1><article id="diary-container" class="card">読み込み中...</article>`;
             
-            try {
-                const res = await fetch(`posts/${id}.md`);
-                const md = await res.text();
-                const container = document.getElementById('diary-container');
-                container.innerHTML = marked.parse(md);
-                if (window.MathJax) MathJax.typesetPromise([container]);
-            } catch (e) {
-                document.getElementById('diary-container').innerHTML = "エラー：記事が見つかりません。";
+            view.innerHTML = `<h1>${year}年${parseInt(month)}月の日記</h1><div id="posts-stream" class="monthly-posts-container">読み込み中...</div>`;
+            const stream = document.getElementById('posts-stream');
+            let allHtml = '';
+
+            for (const id of posts) {
+                try {
+                    const res = await fetch(`posts/${id}.md`);
+                    const md = await res.text();
+                    const htmlContent = marked.parse(md);
+                    const [y, m, d] = id.split('-');
+                    
+                    allHtml += `
+                        <section class="diary-post">
+                            <div class="diary-post-date">${y}/${m}/${d}</div>
+                            <div class="card">${htmlContent}</div>
+                        </section>
+                    `;
+                } catch (e) {
+                    console.error(`${id} の読み込みに失敗しました`);
+                }
             }
+            
+            stream.innerHTML = allHtml;
+            // 全て読み込み終わってからMathJaxを適用
+            if (window.MathJax) MathJax.typesetPromise([stream]);
         }
 
         init();
