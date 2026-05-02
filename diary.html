@@ -109,7 +109,7 @@
 
         // 2. 月一覧を表示
         function renderMonthList(year) {
-            breadcrumb.innerHTML = `<span onclick="renderYearList()">Archives</span> > ${year}年`;
+            breadcrumb.innerHTML = `<span onclick="renderYearList()">過去の日記</span> > ${year}年`;
             const months = [...new Set(diaryPosts.filter(id => id.startsWith(year)).map(id => id.split('-')[1]))].sort((a,b) => b-a);
             let html = `<h1>${year}年の月を選択</h1><div class="archive-container">`;
             months.forEach(m => {
