@@ -1,6 +1,0 @@
----
-layout: default
-title: 自己紹介
----
-
-自己紹介ページです。
