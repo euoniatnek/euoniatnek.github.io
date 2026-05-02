@@ -67,9 +67,4 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* スマホ表示 */
-@media (max-width: 768px) {
-    .container { flex-direction: column; }
-    .sidebar { width: 100%; height: auto; position: relative; border-right: none; }
-    .main-content { margin-left: 0; padding: 1.5rem; }
-}
+
