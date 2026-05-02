@@ -1,17 +1,16 @@
+---
+layout: default
+---
+
+<div class="container">
+<div class="card">
+
 # 日記
 
 ## 2026-05-02
 
-GitHub Pages でホームページを作成。  
-Markdown だけでここまでできるのは驚き。
+MathJax の設定が完成。  
+$c_1(E)$ が正しく表示される。
 
----
-
-## （日付を追加して書いていくだけ）
-
-## 2026-05-03
-
-今日のメモ：
-$$
-c(E)=1+c_1(E)+c_2(E)+\cdots
-$$
+</div>
+</div>
