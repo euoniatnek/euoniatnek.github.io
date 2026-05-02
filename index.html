@@ -8,33 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script>
-        const themeToggle = document.getElementById('dark-mode-toggle');
-const themeIcon = document.getElementById('theme-icon');
-
-// 1. 保存されたテーマがあるか、またはOSがダークモード設定か確認
-const currentTheme = localStorage.getItem('theme') || 
-    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-// 2. 初期テーマを適用
-if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    themeIcon.classList.replace('fa-moon', 'fa-sun');
-}
-
-// 3. ボタンクリック時の処理
-themeToggle.addEventListener('click', () => {
-    let theme = document.documentElement.getAttribute('data-theme');
-    
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeIcon.classList.replace('fa-sun', 'fa-moon');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeIcon.classList.replace('fa-moon', 'fa-sun');
-        localStorage.setItem('theme', 'dark');
-    }
-});
+        
       window.MathJax = {
         tex: {
           inlineMath: [['$', '$']], 
@@ -45,9 +19,7 @@ themeToggle.addEventListener('click', () => {
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <button class="menu-toggle" id="dark-mode-toggle" style="left: 80px;">
-    <i class="fa-solid fa-moon" id="theme-icon"></i>
-</button>
+
     <div class="container">
         <aside class="sidebar">
             <div class="profile">
