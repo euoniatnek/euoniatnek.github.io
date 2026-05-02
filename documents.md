@@ -1,12 +1,14 @@
+---
+layout: default
+---
+
+<div class="container">
+<div class="card">
+
 # 公開文書
 
-ここに公開資料・ノート・PDF などを置きます。
+- intersection.pdf
+- gysin.pdf
 
-## ノート
-
-- [交差理論メモ](assets/intersection.pdf)
-- [Gysin 準同型のメモ](assets/gysin.pdf)
-
-## Markdown 文書
-
-- [Segre 類のメモ](segre)
+</div>
+</div>
