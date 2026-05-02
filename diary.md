@@ -1,16 +1,10 @@
 ---
 layout: default
+title: 日記
 ---
 
-<div class="container">
-<div class="card">
+# 日記一覧
 
-# 日記
-
-## 2026-05-02
-
-MathJax の設定が完成。  
-$c_1(E)$ が正しく表示される。
-
-</div>
-</div>
+{% for post in site.posts %}
+- [{{ post.title }}]({{ post.url }}) — {{ post.date | date: "%Y-%m-%d" }}
+{% endfor %}
