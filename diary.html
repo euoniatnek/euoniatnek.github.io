@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       window.MathJax = { tex: { inlineMath: [['$', '$']] } };
     </script>
@@ -15,10 +16,7 @@
 <body>
     <div class="container">
         <aside class="sidebar">
-            <div class="profile">
-                <h2>Your Name</h2>
-                <p>@username</p>
-            </div>
+            <div class="profile"><h2>Your Name</h2><p>@username</p></div>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
@@ -27,15 +25,34 @@
                 </ul>
             </nav>
         </aside>
+
         <main class="main-content">
             <h1>Diary</h1>
-            <div class="card">
-                <span class="date">2026.05.02</span>
-                <h2>数式テストを含む日記</h2>
-                <p>今日はGitHub Pagesのデプロイに挑戦しました。数式を表示します：</p>
-                <p>二次方程式の解の公式：$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
-            </div>
+            <div id="diary-container" class="card">読み込み中...</div>
+            
+            <hr>
+            <p><small>※過去の日記はファイル名を指定して閲覧してください。</small></p>
         </main>
     </div>
+
+    <script>
+        // URLのパラメータからファイル名を取得（例: diary.html?post=2026-05-02）
+        const urlParams = new URLSearchParams(window.location.search);
+        let postName = urlParams.get('post') || '2026-05-02'; // 指定がなければ最新のを入れる
+
+        // Markdownファイルを読み込んで表示
+        fetch(`posts/${postName}.md`)
+            .then(response => {
+                if (!response.ok) throw new Error('ファイルが見つかりません');
+                return response.text();
+            })
+            .then(text => {
+                document.getElementById('diary-container').innerHTML = marked.parse(text);
+                MathJax.typeset(); // 数式を再レンダリング
+            })
+            .catch(err => {
+                document.getElementById('diary-container').innerHTML = "記事の読み込みに失敗しました。";
+            });
+    </script>
 </body>
 </html>
