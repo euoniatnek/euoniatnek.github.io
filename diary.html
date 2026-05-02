@@ -36,23 +36,44 @@
     </div>
 
     <script>
-        // URLのパラメータからファイル名を取得（例: diary.html?post=2026-05-02）
+    async function loadDiary() {
+        const diaryContainer = document.getElementById('diary-container');
+        
+        // 1. URLパラメータからファイル名を取得
         const urlParams = new URLSearchParams(window.location.search);
-        let postName = urlParams.get('post') || '2026-05-02'; // 指定がなければ最新のを入れる
+        let postName = urlParams.get('post') || '2026-05-02'; // デフォルトファイル名
 
-        // Markdownファイルを読み込んで表示
-        fetch(`posts/${postName}.md`)
-            .then(response => {
-                if (!response.ok) throw new Error('ファイルが見つかりません');
-                return response.text();
-            })
-            .then(text => {
-                document.getElementById('diary-container').innerHTML = marked.parse(text);
-                MathJax.typeset(); // 数式を再レンダリング
-            })
-            .catch(err => {
-                document.getElementById('diary-container').innerHTML = "記事の読み込みに失敗しました。";
-            });
-    </script>
+        try {
+            // 2. ファイルを取得
+            const response = await fetch(`posts/${postName}.md`);
+            
+            if (!response.ok) {
+                throw new Error('File not found');
+            }
+
+            const text = await response.text();
+
+            // 3. MarkdownをHTMLに変換して代入
+            diaryContainer.innerHTML = marked.parse(text);
+
+            // 4. MathJaxが読み込まれているか確認してから数式をレンダリング
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([diaryContainer]).catch((err) => console.log(err));
+            }
+
+        } catch (err) {
+            console.error(err);
+            diaryContainer.innerHTML = `
+                <div style="color: #d93025;">
+                    <i class="fa-solid fa-circle-exclamation"></i> 
+                    記事（${postName}.md）が見つかりませんでした。<br>
+                    <small>ファイル名が正しいか、postsフォルダ内にあるか確認してください。</small>
+                </div>`;
+        }
+    }
+
+    // ページ読み込み完了時に実行
+    window.addEventListener('DOMContentLoaded', loadDiary);
+</script>
 </body>
 </html>
