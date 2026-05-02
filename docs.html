@@ -2,28 +2,79 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documents - My Site</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$']], 
-          displayMath: [['$$', '$$']]
+    <style>
+        .main-content { max-width: 900px; }
+        
+        /* ドキュメントカードのスタイル */
+        .docs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
         }
-      };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        .doc-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .doc-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .doc-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0;
+        }
+        .doc-title:hover { text-decoration: underline; }
+        .doc-date {
+            font-size: 0.9rem;
+            color: var(--accent-gray);
+            background: #f0f2f5;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .doc-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        .doc-footer {
+            margin-top: 5px;
+        }
+        .pdf-link {
+            color: #d32f2f; /* PDFっぽい赤色 */
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .pdf-link:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
-            <div class="profile">
-                <h2>Your Name</h2>
-                <p>@username</p>
-            </div>
+            <div class="profile"><h2>Your Name</h2><p>@username</p></div>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
@@ -32,15 +83,70 @@
                 </ul>
             </nav>
         </aside>
+
         <main class="main-content">
             <h1>Documents</h1>
-            <div class="card">
-                <span class="date">Technical Report</span>
-                <h2>HTML/CSSの設計指針</h2>
-                <p>保守性の高いCSSを書くための自分なりのルールについてまとめました...</p>
-                <a href="#" style="color:var(--primary-color); text-decoration:none; font-weight:bold;">続きを読む →</a>
-            </div>
+            <p>公開している論文、レポート、スライドなどのPDF資料一覧です。</p>
+            
+            <div id="docs-list" class="docs-grid">
+                </div>
         </main>
     </div>
+
+    <script>
+        /**
+         * 【ここを更新するだけ！】
+         * 新しいドキュメントを追加する場合は、以下のオブジェクトを配列に追加してください。
+         */
+        const myDocuments = [
+            {
+                title: "研究報告：次世代Webエンジニアリングの動向",
+                date: "2026-04-20",
+                url: "pdfs/report_2026_04.pdf",
+                description: "最近のWebフロントエンドにおけるアーキテクチャの変遷と、静的サイトジェネレーターの再評価についてまとめた報告書です。"
+            },
+            {
+                title: "数学セミナー発表資料：リーマン幾何学入門",
+                date: "2026-03-15",
+                url: "https://example.com/files/math_seminar.pdf", // 外部URLも可能
+                description: "大学のゼミで使用した、リーマン幾何学の基礎概念を視覚的に解説したスライド資料です。"
+            },
+            {
+                title: "2025年度活動報告書",
+                date: "2026-01-10",
+                url: "pdfs/annual_report_2025.pdf",
+                description: "2025年における研究活動およびプロジェクトの成果を網羅した年次報告書です。"
+            }
+        ];
+
+        function renderDocs() {
+            const container = document.getElementById('docs-list');
+            // 日付の新しい順にソート
+            const sortedDocs = myDocuments.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            let html = '';
+            sortedDocs.forEach(doc => {
+                const displayDate = doc.date.replace(/-/g, '/');
+                html += `
+                    <div class="doc-card">
+                        <div class="doc-header">
+                            <h2 class="doc-title">${doc.title}</h2>
+                            <span class="doc-date">${displayDate}</span>
+                        </div>
+                        <p class="doc-description">${doc.description}</p>
+                        <div class="doc-footer">
+                            <a href="${doc.url}" target="_blank" class="pdf-link">
+                                <i class="fa-solid fa-file-pdf"></i> PDFを開く
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // 初期表示
+        window.addEventListener('DOMContentLoaded', renderDocs);
+    </script>
 </body>
 </html>
