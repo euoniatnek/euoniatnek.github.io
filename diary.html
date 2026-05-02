@@ -12,12 +12,8 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* レイアウト崩れ防止用の追加スタイル */
-        .main-content {
-            max-width: 900px; /* 横に広がりすぎないように制限 */
-            overflow-x: hidden; /* 横スクロールの発生を防ぐ */
-        }
-
+        .main-content { max-width: 900px; overflow-x: hidden; }
+        
         /* 階層ナビゲーション */
         .archive-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin-top: 20px; }
         .archive-card {
@@ -26,26 +22,17 @@
             cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit;
         }
         .archive-card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
-        .archive-card h2 { margin: 0; font-family: inherit; }
+        .archive-card h2 { margin: 0; }
 
         /* 月別表示（ストリーム） */
         .monthly-posts-container { display: flex; flex-direction: column; gap: 40px; margin-top: 30px; }
         .diary-post { border-left: 4px solid var(--primary-color); padding-left: 20px; width: 100%; }
         .diary-post-date { font-size: 1.2rem; font-weight: bold; color: var(--accent-gray); margin-bottom: 10px; }
-        
-        /* 記事内のフォントを強制的に統一 */
-        .diary-body { 
-            font-family: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif !important;
-            line-height: 1.8;
-            word-wrap: break-word; /* 長い英単語などが突き抜けるのを防ぐ */
-        }
+        .diary-body { font-family: inherit; line-height: 1.8; word-wrap: break-word; }
 
-        .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; font-size: 0.9rem; }
+        .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; font-size: 0.9rem; min-height: 1.5em; }
         .breadcrumb span { cursor: pointer; }
         .breadcrumb span:hover { color: var(--primary-color); text-decoration: underline; }
-
-        /* サイドバーが崩れないように保護 */
-        .sidebar { z-index: 1000; }
     </style>
 </head>
 <body>
@@ -62,18 +49,21 @@
         </aside>
 
         <main class="main-content">
-            <nav class="breadcrumb" id="breadcrumb" style="display:none;"></nav>
+            <nav class="breadcrumb" id="breadcrumb"></nav>
             <div id="diary-view"></div>
         </main>
     </div>
 
     <script>
         /**
-         * 日記リスト（適宜更新してください）
+         * 日記リスト：新しい順に並べてください
          */
         const diaryPosts = [
-            "2026-05-02", "2026-05-01", "2026-04-15",
-            "2025-12-24", "2025-11-10", "2024-08-05"
+            "2026-05-02",
+            "2026-05-01",
+            "2026-04-15",
+            "2025-12-24",
+            "2025-11-10"
         ];
 
         const view = document.getElementById('diary-view');
@@ -85,28 +75,39 @@
             const month = params.get('month');
 
             if (year && month) {
+                // 特定の年月が指定されている場合
                 renderMonthlyStream(year, month);
             } else if (year) {
+                // 年だけ指定されている場合（その年の月一覧）
                 renderMonthList(year);
             } else {
-                renderYearList();
+                // 【追加機能】何も指定がない場合は最新の月を表示
+                if (diaryPosts.length > 0) {
+                    const [latestY, latestM] = diaryPosts[0].split('-');
+                    renderMonthlyStream(latestY, latestM, true);
+                } else {
+                    view.innerHTML = "<h1>Diary</h1><p>日記はまだありません。</p>";
+                }
             }
         }
 
+        // 1. 年一覧（アーカイブ画面）を表示
         function renderYearList() {
-            breadcrumb.style.display = 'none';
+            // URLからパラメータを消してトップ画面にする
+            window.history.pushState({}, '', 'diary.html');
+            breadcrumb.innerHTML = ` Archives`;
+            
             const years = [...new Set(diaryPosts.map(id => id.split('-')[0]))].sort((a,b) => b-a);
-            let html = '<h1>Diary Archives</h1><div class="archive-container">';
+            let html = '<h1>Archives</h1><div class="archive-container">';
             years.forEach(y => {
                 html += `<a href="?year=${y}" class="archive-card"><h2>${y}年</h2></a>`;
             });
             view.innerHTML = html + '</div>';
         }
 
+        // 2. 月一覧を表示
         function renderMonthList(year) {
-            breadcrumb.style.display = 'block';
-            breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > ${year}年`;
-            
+            breadcrumb.innerHTML = `<span onclick="renderYearList()">Archives</span> > ${year}年`;
             const months = [...new Set(diaryPosts.filter(id => id.startsWith(year)).map(id => id.split('-')[1]))].sort((a,b) => b-a);
             let html = `<h1>${year}年の月を選択</h1><div class="archive-container">`;
             months.forEach(m => {
@@ -115,13 +116,19 @@
             view.innerHTML = html + '</div>';
         }
 
-        async function renderMonthlyStream(year, month) {
-            breadcrumb.style.display = 'block';
-            breadcrumb.innerHTML = `<span onclick="location.href='diary.html'">Archives</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
+        // 3. ひと月分を縦に並べて表示
+        async function renderMonthlyStream(year, month, isDefault = false) {
+            // パンくずの表示切り替え
+            if (isDefault) {
+                // 初期表示時はアーカイブへ戻るリンクを出す
+                breadcrumb.innerHTML = `<span onclick="renderYearList()"><i class="fa-solid fa-list"></i> 過去のアーカイブ一覧を表示</span>`;
+            } else {
+                breadcrumb.innerHTML = `<span onclick="renderYearList()">Archives</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
+            }
             
             const posts = diaryPosts.filter(id => id.startsWith(`${year}-${month}`)).sort((a,b) => b-a);
+            view.innerHTML = `<h1>${year}年${parseInt(month)}月</h1><div id="posts-stream" class="monthly-posts-container">読み込み中...</div>`;
             
-            view.innerHTML = `<h1>${year}年${parseInt(month)}月の日記</h1><div id="posts-stream" class="monthly-posts-container">読み込み中...</div>`;
             const stream = document.getElementById('posts-stream');
             let allHtml = '';
 
