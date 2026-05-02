@@ -1,0 +1,20 @@
+name: Generate Post List
+on: [push] # ファイルが追加（Push）されたら実行
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate JSON
+        run: |
+          echo "[" > post-list.json
+          ls posts/*.md | sed 's/posts\///;s/\.md//' | sort -r | sed 's/.*/  "&",/' >> post-list.json
+          sed -i '$ s/,$//' post-list.json
+          echo "]" >> post-list.json
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add post-list.json
+          git commit -m "Update post list" || exit 0
+          git push
