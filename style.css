@@ -1,0 +1,88 @@
+/* 基本設定 */
+:root {
+    --bg-color: #f8f9fa;
+    --sidebar-color: #ffffff;
+    --primary-color: #007bff;
+    --text-color: #212529;
+    --accent-gray: #6c757d;
+    --border-color: #dee2e6;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+}
+
+/* サイドバー */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-color);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    height: 100vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile h2 { margin: 10px 0 5px; font-size: 1.2rem; }
+.profile p { color: var(--accent-gray); font-size: 0.9rem; margin-bottom: 30px; }
+
+.nav-menu ul { list-style: none; padding: 0; margin: 0; }
+.nav-menu li { margin-bottom: 8px; }
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--text-color);
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.nav-menu a:hover { background-color: #f0f2f5; }
+.nav-menu a.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.nav-menu i { margin-right: 12px; width: 20px; text-align: center; }
+
+/* メインコンテンツ */
+.main-content {
+    margin-left: 260px;
+    padding: 40px 60px;
+    width: 100%;
+    max-width: 900px;
+}
+
+h1 { font-size: 2rem; margin-bottom: 30px; }
+
+/* カードスタイル */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.card .date { color: var(--accent-gray); font-size: 0.85rem; }
+.card h2 { margin: 10px 0; font-size: 1.4rem; }
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border-color); }
+    .main-content { margin-left: 0; padding: 20px; }
+}
