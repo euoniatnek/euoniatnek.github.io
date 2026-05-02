@@ -1,5 +1,7 @@
-title: ""
-theme: minima
+title: 井上堅太のホームページ
 markdown: kramdown
-kramdown:
-  input: GFM
+theme: null
+
+collections:
+  documents:
+    output: true
