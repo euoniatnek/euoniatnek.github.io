@@ -1,7 +1,0 @@
-title: 井上堅太のホームページ
-markdown: kramdown
-theme: null
-
-collections:
-  documents:
-    output: true
