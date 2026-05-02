@@ -100,7 +100,7 @@
             breadcrumb.innerHTML = ` 過去の日記`;
             
             const years = [...new Set(diaryPosts.map(id => id.split('-')[0]))].sort((a,b) => b-a);
-            let html = '<h1>Archives</h1><div class="archive-container">';
+            let html = '<h1>過去の日記</h1><div class="archive-container">';
             years.forEach(y => {
                 html += `<a href="?year=${y}" class="archive-card"><h2>${y}年</h2></a>`;
             });
@@ -125,7 +125,7 @@
                 // 初期表示時はアーカイブへ戻るリンクを出す
                 breadcrumb.innerHTML = `<span onclick="renderYearList()"><i class="fa-solid fa-list"></i> 過去の日記一覧を表示</span>`;
             } else {
-                breadcrumb.innerHTML = `<span onclick="renderYearList()">Archives</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
+                breadcrumb.innerHTML = `<span onclick="renderYearList()">過去の日記</span> > <span onclick="location.href='?year=${year}'">${year}年</span> > ${parseInt(month)}月`;
             }
             
             const posts = diaryPosts.filter(id => id.startsWith(`${year}-${month}`)).sort((a,b) => b-a);
