@@ -18,7 +18,13 @@
         .literature-grid { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
         .literature-card {
             background: white; padding: 25px; border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s; display: flex;
+            flex-direction: column; gap: 10px;
+        }
+         .literature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
         .lit-title { font-size: 1.2rem; font-weight: bold; margin: 0px; }
         .lit-title a { color: var(--primary-color); text-decoration: none; }
@@ -27,6 +33,9 @@
         .lit-memo { 
             font-size: 1rem; line-height: 1.6; color: var(--text-color);
             border-top: 1px solid #f0f2f5; padding-top: 10px; margin-top: 5px;
+        }
+        .lit-footer {
+            margin-top: 5px;
         }
     </style>
 </head>
