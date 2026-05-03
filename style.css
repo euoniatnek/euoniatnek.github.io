@@ -68,3 +68,36 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 1.5rem;
 }
+
+/* スマートフォン向け（画面幅768px以下）の調整 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* 左右並びを上下並びに変更 */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .main-content {
+        padding: 20px;
+        width: 100%;
+    }
+
+    /* ナビゲーションメニューを横並びにする（任意） */
+    .nav-menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .nav-menu li {
+        margin-bottom: 0;
+    }
+}
