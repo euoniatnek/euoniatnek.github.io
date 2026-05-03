@@ -89,6 +89,38 @@ body {
         width: 100%;
     }
 
+@media (max-width: 768px) {
+    /* メニュー全体のスタイル */
+    .nav-menu ul {
+        display: flex !important;
+        flex-wrap: wrap;        /* 収まらない場合は、縦文字にならずに「項目ごと」次の行へ */
+        justify-content: center; 
+        padding: 0 !important;
+        margin: 15px 0 !important;
+        gap: 10px 15px;         /* 縦の間隔 10px / 横の間隔 15px */
+    }
+
+    .nav-menu li {
+        margin: 0 !important;
+        /* 文字を縦にしないための設定 */
+        white-space: nowrap !important; 
+        flex-shrink: 0;
+    }
+
+    .nav-menu a {
+        display: flex;
+        flex-direction: column; /* アイコンを文字の上に配置してコンパクトにする（お好みで） */
+        align-items: center;
+        gap: 4px;
+        font-size: 0.85rem;      /* スマホ用に少しフォントを小さく */
+        padding: 5px 8px;
+    }
+
+    .nav-menu a i {
+        font-size: 1.1rem;      /* アイコンを少し目立たせる */
+    }
+}
+    
 /* スマートフォン向け（画面幅768px以下）の調整 */
 
 
