@@ -101,3 +101,24 @@ body {
         margin-bottom: 0;
     }
 }
+
+/* 画像が画面幅を超えないようにする */
+.diary-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 10px 0;
+}
+
+@media (max-width: 480px) {
+    .doc-header {
+        flex-direction: column; /* タイトルと日付を上下に並べる */
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .doc-title {
+        font-size: 1.1rem; /* スマホでは少しだけ文字を小さく */
+    }
+}
