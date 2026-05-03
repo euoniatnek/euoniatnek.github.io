@@ -108,16 +108,22 @@ body {
     }
 
     .nav-menu a {
-        display: flex;
-        flex-direction: column; /* アイコンを文字の上に配置してコンパクトにする（お好みで） */
-        align-items: center;
-        gap: 4px;
-        font-size: 0.85rem;      /* スマホ用に少しフォントを小さく */
-        padding: 5px 8px;
+        display: flex !important;
+        flex-direction: row;      /* 横並びに固定 */
+        align-items: center;      /* 【重要】垂直方向の中心を揃える */
+        justify-content: center;  /* 水平方向の中心に寄せる */
+        gap: 8px;                 /* アイコンと文字の間隔 */
+        
+        padding: 10px 5px;
+        font-size: 1rem;          /* 文字サイズ */
+        white-space: nowrap;      /* 改行禁止 */
     }
 
     .nav-menu a i {
-        font-size: 1.1rem;      /* アイコンを少し目立たせる */
+        font-size: 1.1rem; /* アイコンを少し目立たせる */
+        display: flex;            /* アイコン自体のズレを防ぐ */
+        align-items: center;
+        line-height: 1;           /* 行間の干渉をなくす */
     }
 }
     
