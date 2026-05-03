@@ -101,7 +101,10 @@ mjx-container[display="true"] {
 /* スマートフォン向け（画面幅768px以下）の調整 */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
     }
 
     .sidebar {
@@ -109,19 +112,16 @@ mjx-container[display="true"] {
         height: auto;
         position: relative;
         padding: 1rem;
+        text-align: center;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
     }
 
     .main-content {
-        margin-left: 0;
+        margin: 0;
         padding: 1.25rem;
         width: 100%;
         max-width: none;
-    }
-
-    .profile {
-        text-align: center;
     }
 
     .profile h2 {
