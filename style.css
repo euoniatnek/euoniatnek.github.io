@@ -90,34 +90,7 @@ body {
     }
 
 /* スマートフォン向け（画面幅768px以下）の調整 */
-@media (max-width: 768px) {
-    /* サイドバー内のナビゲーション設定 */
-    .nav-menu ul {
-        display: flex;          /* 横並びにする */
-        flex-wrap: nowrap;      /* 折り返さず一行に収める */
-        justify-content: center; /* 【重要】中央寄せにする */
-        align-items: center;
-        gap: 15px;              /* 項目同士の間隔 */
-        
-        padding: 0;             /* ブラウザ標準の左余白をリセット */
-        margin: 0 auto;         /* 外側の余白をリセットして中央へ */
-        list-style: none;       /* 点を消す */
-        width: 100%;            /* 全幅を使う */
-    }
 
-    .nav-menu li {
-        margin: 0;              /* 余計な下余白を消す */
-        white-space: nowrap;    /* 項目内で改行させない */
-    }
-
-    .nav-menu a {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 8px 5px;       /* タップしやすい広さに調整 */
-        font-size: 0.7rem;      /* 文字がはみ出す場合は少し小さく調整 */
-    }
-}
 
 @media (max-width: 768px) {
     /* 1. コンテナ全体の余白をリセット */
