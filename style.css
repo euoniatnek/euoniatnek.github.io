@@ -115,7 +115,45 @@ body {
         align-items: center;
         gap: 5px;
         padding: 8px 5px;       /* タップしやすい広さに調整 */
-        font-size: 0.9rem;      /* 文字がはみ出す場合は少し小さく調整 */
+        font-size: 0.7rem;      /* 文字がはみ出す場合は少し小さく調整 */
+    }
+}
+
+@media (max-width: 768px) {
+    /* 1. コンテナ全体の余白をリセット */
+    .container {
+        display: block; /* もし flex のままであれば block にして上下に並べる */
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* 2. サイドバーの設定（メニュー） */
+    .sidebar {
+        width: 100%;
+        padding: 20px 0; /* 左右のパディングを 0 にして中央寄せを確実に */
+        text-align: center;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* 3. メインコンテンツの設定（ここが右寄りの原因） */
+    .main-content {
+        width: 100% !important; /* 幅を画面いっぱいに */
+        max-width: 100% !important;
+        padding: 20px !important; /* 左右に適切な余白（スマホ用）を付ける */
+        margin: 0 !important;     /* 外側の余白をリセット */
+        box-sizing: border-box;   /* パディングを含めて幅100%にする */
+    }
+
+    /* 4. メニューの中央寄せ（念のため再掲） */
+    .nav-menu ul {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 10px 0 0 0;
+        list-style: none;
+        gap: 15px;
     }
 }
 
