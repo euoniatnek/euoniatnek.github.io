@@ -33,6 +33,20 @@
         .breadcrumb { margin-bottom: 20px; color: var(--accent-gray); font-weight: bold; font-size: 0.9rem; min-height: 1.5em; }
         .breadcrumb span { cursor: pointer; }
         .breadcrumb span:hover { color: var(--primary-color); text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .main-content { max-width: none; overflow-x: visible; }
+            .archive-container { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+            .archive-card { padding: 1.25rem; border-radius: 10px; }
+            .monthly-posts-container { gap: 28px; margin-top: 20px; }
+            .diary-post-date { font-size: 1rem; }
+            .diary-body { line-height: 1.75; }
+            .breadcrumb { overflow-wrap: anywhere; }
+        }
+
+        @media (max-width: 420px) {
+            .archive-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>

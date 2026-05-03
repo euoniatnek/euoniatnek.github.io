@@ -37,6 +37,20 @@
         .lit-footer {
             margin-top: 5px;
         }
+
+        @media (max-width: 768px) {
+            .main-content { max-width: none; overflow-x: visible; }
+            .literature-grid { gap: 1rem; }
+            .literature-card { padding: 1.25rem; border-radius: 10px; }
+            .lit-title {
+                font-size: 1.1rem;
+                line-height: 1.4;
+            }
+            .lit-memo {
+                padding-top: 1rem;
+                overflow-wrap: anywhere;
+            }
+        }
     </style>
 </head>
 <body>
