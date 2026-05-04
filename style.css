@@ -90,40 +90,43 @@ body {
     }
 
 @media (max-width: 768px) {
-    /* メニュー全体のスタイル */
+    /* メニュー全体のコンテナ */
     .nav-menu ul {
         display: flex !important;
-        flex-wrap: wrap;        /* 収まらない場合は、縦文字にならずに「項目ごと」次の行へ */
-        justify-content: center; 
-        padding: 0 !important;
+        flex-wrap: nowrap !important; /* 【重要】絶対に改行させない */
+        justify-content: space-between; /* 項目を均等に配置 */
+        align-items: center;
+        padding: 0 10px !important; /* 左右に少しだけ余裕を持たせる */
         margin: 15px 0 !important;
-        gap: 10px 15px;         /* 縦の間隔 10px / 横の間隔 15px */
+        width: 100% !important;
+        box-sizing: border-box;
     }
 
+    /* 各リスト項目 */
     .nav-menu li {
         margin: 0 !important;
-        /* 文字を縦にしないための設定 */
-        white-space: nowrap !important; 
-        flex-shrink: 0;
+        flex: 1; /* 各項目の道幅を均等に分かち合う */
+        text-align: center;
     }
 
+    /* リンクボタン（アイコンと文字） */
     .nav-menu a {
         display: flex !important;
-        flex-direction: row;      /* 横並びに固定 */
-        align-items: center;      /* 【重要】垂直方向の中心を揃える */
-        justify-content: center;  /* 水平方向の中心に寄せる */
-        gap: 8px;                 /* アイコンと文字の間隔 */
+        flex-direction: column; /* アイコンを上、文字を下にして横幅を節約 */
+        align-items: center;
+        justify-content: center;
+        gap: 2px; /* アイコンと文字の距離を詰める */
         
-        padding: 10px 5px;
-        font-size: 1rem;          /* 文字サイズ */
-        white-space: nowrap;      /* 改行禁止 */
+        padding: 5px 2px !important;
+        font-size: 0.75rem; /* 文字を少し小さくして一行に収まりやすくする */
+        white-space: nowrap; /* 文字の途中で改行させない */
+        text-decoration: none;
     }
 
+    /* アイコンのサイズ調整 */
     .nav-menu a i {
-        font-size: 1.1rem; /* アイコンを少し目立たせる */
-        display: flex;            /* アイコン自体のズレを防ぐ */
-        align-items: center;
-        line-height: 1;           /* 行間の干渉をなくす */
+        font-size: 1.2rem !important; /* アイコンを少しだけ控えめにしてバランスを取る */
+        margin-bottom: 2px;
     }
 }
     
