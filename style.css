@@ -118,7 +118,7 @@ body {
         gap: 4px;                        /* アイコンと文字の間隔を狭く */
         
         padding: 8px 2px !important;
-        font-size: 0.65rem;               /* 1列に収めるため文字を小さく調整 */
+        font-size: 0.7rem;               /* 1列に収めるため文字を小さく調整 */
         white-space: nowrap;             /* 改行禁止 */
         text-decoration: none;
     }
